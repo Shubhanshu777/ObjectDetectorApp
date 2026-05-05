@@ -58,6 +58,7 @@ public class ObjectDetectorHelper {
         LABEL_MAP.put("paper", "paper");
         LABEL_MAP.put("notebook", "paper");
         LABEL_MAP.put("sheet", "paper");
+        LABEL_MAP.put("newspaper", "paper");
 
         // Pen mappings - expanded for better detection
         LABEL_MAP.put("scissors", "pen");
