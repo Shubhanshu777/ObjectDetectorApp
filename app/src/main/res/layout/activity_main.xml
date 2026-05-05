@@ -62,16 +62,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Inference Time -->
-        <TextView
-            android:id="@+id/inferenceTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
-            android:padding="8dp"
-            android:text="Inference: 0ms"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -87,51 +77,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/thresholdLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Confidence Threshold:"
-            android:textColor="#E0E0E0"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/thresholdValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="0.45"
-            android:textColor="@color/accent_blue"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@id/thresholdLabel"
-            app:layout_constraintStart_toEndOf="@id/thresholdLabel" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/thresholdSlider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:valueFrom="0.1"
-            android:valueTo="0.9"
-            android:value="0.45"
-            android:stepSize="0.05"
-            app:thumbColor="@color/accent_blue"
-            app:trackColorActive="@color/accent_blue"
-            app:trackColorInactive="#555555"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thresholdLabel" />
-
-        <TextView
             android:id="@+id/detectionLabelsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Detecting:"
             android:textColor="#BDBDBD"
-            android:textSize="11sp"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thresholdSlider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/detectionLabels"
@@ -140,12 +93,12 @@
             android:layout_marginStart="4dp"
             android:text="pen, paper, computer, table, chair, person, laptop, mouse, keyboard"
             android:textColor="#9E9E9E"
-            android:textSize="11sp"
+            android:textSize="13sp"
             android:maxLines="1"
             android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/detectionLabelsTitle"
-            app:layout_constraintTop_toBottomOf="@id/thresholdSlider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

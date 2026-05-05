@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cameraButton" />
 
-    <!-- Labels Card -->
+    <!-- Student Info Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/labelsCard"
         android:layout_width="0dp"
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detectable Objects"
+                android:text="Student Info"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -104,104 +104,20 @@
                 android:layout_marginBottom="12dp"
                 android:background="@color/accent_blue" />
 
-            <GridLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:columnCount="3"
-                android:rowCount="3"
-                android:useDefaultMargins="true">
+                android:text="Name: Rishi Sharma"
+                android:textColor="#E0E0E0"
+                android:textSize="15sp"
+                android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_orange"
-                    android:drawablePadding="6dp"
-                    android:text="Pen"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_purple"
-                    android:drawablePadding="6dp"
-                    android:text="Paper"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_blue"
-                    android:drawablePadding="6dp"
-                    android:text="Computer"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_brown"
-                    android:drawablePadding="6dp"
-                    android:text="Table"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_amber"
-                    android:drawablePadding="6dp"
-                    android:text="Chair"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_green"
-                    android:drawablePadding="6dp"
-                    android:text="Person"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_cyan"
-                    android:drawablePadding="6dp"
-                    android:text="Laptop"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_pink"
-                    android:drawablePadding="6dp"
-                    android:text="Mouse"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:drawableStart="@drawable/ic_dot_deep_purple"
-                    android:drawablePadding="6dp"
-                    android:text="Keyboard"
-                    android:textColor="#E0E0E0"
-                    android:textSize="13sp" />
-
-            </GridLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enrollment Number: 20413211922"
+                android:textColor="#E0E0E0"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

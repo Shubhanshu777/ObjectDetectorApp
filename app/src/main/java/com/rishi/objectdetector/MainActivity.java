@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ObjectDetectorHel
 
     private void initializeObjectDetector() {
         try {
-            objectDetector = new ObjectDetectorHelper(this, 0.45f, 4, 15, this);
+            objectDetector = new ObjectDetectorHelper(this, 0.25f, 4, 15, this);
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize object detector", e);
             showToast("Failed to initialize detector: " + e.getMessage());
@@ -85,14 +85,6 @@ public class MainActivity extends AppCompatActivity implements ObjectDetectorHel
 
         // Back button
         binding.backButton.setOnClickListener(v -> finish());
-
-        // Threshold slider
-        binding.thresholdSlider.addOnChangeListener((slider, value, fromUser) -> {
-            if (objectDetector != null) {
-                objectDetector.setThreshold(value);
-            }
-            binding.thresholdValue.setText(String.format("%.2f", value));
-        });
     }
 
     private void startCamera() {
@@ -198,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements ObjectDetectorHel
 
         mainHandler.post(() -> {
             if (binding != null && isActivityRunning) {
-                binding.inferenceTimeText.setText(String.format("Inference: %dms | Objects: %d", inferenceTime, results.size()));
                 binding.detectionOverlay.setResults(results, imageHeight, imageWidth);
             }
         });
