@@ -1,0 +1,9 @@
+pen
+paper
+computer
+table
+chair
+person
+laptop
+mouse
+keyboard
