@@ -33,9 +33,6 @@ public class ObjectDetectorHelper {
     // COCO label mappings to our target labels
     private static final Map<String, String> LABEL_MAP = new HashMap<>();
 
-    // Labels that should use a lower threshold for easier detection
-    private static final Map<String, Float> PRIORITY_LABELS = new HashMap<>();
-
     static {
         // Direct mappings
         LABEL_MAP.put("person", "person");
@@ -67,10 +64,6 @@ public class ObjectDetectorHelper {
         LABEL_MAP.put("knife", "pen");
         LABEL_MAP.put("fork", "pen");
         LABEL_MAP.put("spoon", "pen");
-
-        // Priority labels with lower thresholds for easier detection
-        PRIORITY_LABELS.put("pen", 0.15f);
-        PRIORITY_LABELS.put("paper", 0.15f);
     }
 
     private final Context context;
@@ -95,8 +88,8 @@ public class ObjectDetectorHelper {
     private void setupDetector() {
         try {
             ObjectDetector.ObjectDetectorOptions options = ObjectDetector.ObjectDetectorOptions.builder()
-                    .setScoreThreshold(0.15f) // Very low threshold for model to catch paper/pen
-                    .setMaxResults(maxResults * 3) // Get more results to improve paper/pen detection
+                    .setScoreThreshold(0.3f) // Balanced threshold for easy detection
+                    .setMaxResults(maxResults)
                     .setNumThreads(numThreads)
                     .build();
 
@@ -191,17 +184,10 @@ public class ObjectDetectorHelper {
             // Map the COCO label to our target label
             String mappedLabel = LABEL_MAP.get(originalLabel.toLowerCase());
 
-            if (mappedLabel != null) {
-                // Use lower threshold for priority labels (paper/pen)
-                float effectiveThreshold = PRIORITY_LABELS.containsKey(mappedLabel)
-                        ? PRIORITY_LABELS.get(mappedLabel)
-                        : threshold;
-
-                if (score >= effectiveThreshold) {
-                    RectF boundingBox = result.getBoundingBox();
-                    if (boundingBox != null) {
-                        detections.add(new Detection(boundingBox, mappedLabel, score));
-                    }
+            if (mappedLabel != null && score >= threshold) {
+                RectF boundingBox = result.getBoundingBox();
+                if (boundingBox != null) {
+                    detections.add(new Detection(boundingBox, mappedLabel, score));
                 }
             }
         }

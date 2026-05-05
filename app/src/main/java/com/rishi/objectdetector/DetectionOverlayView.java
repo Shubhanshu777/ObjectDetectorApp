@@ -21,8 +21,14 @@ import java.util.Map;
 public class DetectionOverlayView extends View {
 
     private List<Detection> results = new ArrayList<>();
+    private List<Detection> smoothedResults = new ArrayList<>();
     private int imageWidth = 1;
     private int imageHeight = 1;
+
+    private static final float SMOOTHING_FACTOR = 0.3f;
+    private static final float IOU_THRESHOLD = 0.3f;
+    private static final int FRAMES_TO_KEEP = 3;
+    private int framesWithoutDetection = 0;
 
     private final Paint boxPaint;
     private final Paint textBackgroundPaint;
@@ -79,10 +85,86 @@ public class DetectionOverlayView extends View {
     }
 
     public void setResults(@NonNull List<Detection> detectionResults, int imageHeight, int imageWidth) {
-        this.results = new ArrayList<>(detectionResults);
         this.imageHeight = Math.max(1, imageHeight);
         this.imageWidth = Math.max(1, imageWidth);
+
+        if (detectionResults.isEmpty()) {
+            framesWithoutDetection++;
+            if (framesWithoutDetection > FRAMES_TO_KEEP) {
+                smoothedResults.clear();
+            }
+        } else {
+            framesWithoutDetection = 0;
+            smoothedResults = smoothDetections(detectionResults, smoothedResults);
+        }
+
+        this.results = new ArrayList<>(smoothedResults);
         postInvalidate();
+    }
+
+    private List<Detection> smoothDetections(List<Detection> newDetections, List<Detection> prevDetections) {
+        List<Detection> smoothed = new ArrayList<>();
+        List<Boolean> matched = new ArrayList<>();
+
+        for (int i = 0; i < prevDetections.size(); i++) {
+            matched.add(false);
+        }
+
+        for (Detection newDet : newDetections) {
+            Detection bestMatch = null;
+            int bestIdx = -1;
+            float bestIou = IOU_THRESHOLD;
+
+            for (int i = 0; i < prevDetections.size(); i++) {
+                if (matched.get(i)) continue;
+                Detection prevDet = prevDetections.get(i);
+
+                if (!newDet.getLabel().equals(prevDet.getLabel())) continue;
+
+                float iou = calculateIoU(newDet.getBoundingBox(), prevDet.getBoundingBox());
+                if (iou > bestIou) {
+                    bestIou = iou;
+                    bestMatch = prevDet;
+                    bestIdx = i;
+                }
+            }
+
+            if (bestMatch != null) {
+                matched.set(bestIdx, true);
+                RectF smoothedBox = smoothBox(newDet.getBoundingBox(), bestMatch.getBoundingBox());
+                smoothed.add(new Detection(smoothedBox, newDet.getLabel(), newDet.getConfidence()));
+            } else {
+                smoothed.add(newDet);
+            }
+        }
+
+        return smoothed;
+    }
+
+    private RectF smoothBox(RectF newBox, RectF prevBox) {
+        float left = prevBox.left + SMOOTHING_FACTOR * (newBox.left - prevBox.left);
+        float top = prevBox.top + SMOOTHING_FACTOR * (newBox.top - prevBox.top);
+        float right = prevBox.right + SMOOTHING_FACTOR * (newBox.right - prevBox.right);
+        float bottom = prevBox.bottom + SMOOTHING_FACTOR * (newBox.bottom - prevBox.bottom);
+        return new RectF(left, top, right, bottom);
+    }
+
+    private float calculateIoU(RectF box1, RectF box2) {
+        float intersectLeft = Math.max(box1.left, box2.left);
+        float intersectTop = Math.max(box1.top, box2.top);
+        float intersectRight = Math.min(box1.right, box2.right);
+        float intersectBottom = Math.min(box1.bottom, box2.bottom);
+
+        if (intersectRight <= intersectLeft || intersectBottom <= intersectTop) {
+            return 0f;
+        }
+
+        float intersectArea = (intersectRight - intersectLeft) * (intersectBottom - intersectTop);
+        float box1Area = (box1.right - box1.left) * (box1.bottom - box1.top);
+        float box2Area = (box2.right - box2.left) * (box2.bottom - box2.top);
+        float unionArea = box1Area + box2Area - intersectArea;
+
+        return intersectArea / unionArea;
     }
 
     public void clear() {
