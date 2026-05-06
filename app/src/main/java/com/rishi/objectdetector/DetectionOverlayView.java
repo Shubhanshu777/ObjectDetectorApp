@@ -219,8 +219,12 @@ public class DetectionOverlayView extends View {
         // Draw corner accents
         drawCornerAccents(canvas, left, top, right, bottom, color);
 
+        // Scale confidence for display: 15% -> 50%, 50% -> 100%
+        float displayConfidence = 50 + (confidence * 100 - 15) * (50f / 35f);
+        displayConfidence = Math.min(99, Math.max(50, displayConfidence));
+
         // Prepare label text
-        String labelText = String.format("%s %.0f%%", capitalize(label), confidence * 100);
+        String labelText = String.format("%s %.0f%%", capitalize(label), displayConfidence);
 
         // Measure text
         Rect textBounds = new Rect();
