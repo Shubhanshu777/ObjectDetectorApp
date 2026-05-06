@@ -25,9 +25,9 @@ public class DetectionOverlayView extends View {
     private int imageWidth = 1;
     private int imageHeight = 1;
 
-    private static final float SMOOTHING_FACTOR = 0.3f;
-    private static final float IOU_THRESHOLD = 0.3f;
-    private static final int FRAMES_TO_KEEP = 3;
+    private static final float SMOOTHING_FACTOR = 0.2f;
+    private static final float IOU_THRESHOLD = 0.25f;
+    private static final int FRAMES_TO_KEEP = 5;
     private int framesWithoutDetection = 0;
 
     private final Paint boxPaint;

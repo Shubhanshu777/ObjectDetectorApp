@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ObjectDetectorHel
 
     private void initializeObjectDetector() {
         try {
-            objectDetector = new ObjectDetectorHelper(this, 0.3f, 4, 10, this);
+            objectDetector = new ObjectDetectorHelper(this, 0.2f, 4, 15, this);
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize object detector", e);
             showToast("Failed to initialize detector: " + e.getMessage());

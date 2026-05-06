@@ -88,8 +88,8 @@ public class ObjectDetectorHelper {
     private void setupDetector() {
         try {
             ObjectDetector.ObjectDetectorOptions options = ObjectDetector.ObjectDetectorOptions.builder()
-                    .setScoreThreshold(0.3f) // Balanced threshold for easy detection
-                    .setMaxResults(maxResults)
+                    .setScoreThreshold(0.15f) // Low threshold for easier detection
+                    .setMaxResults(maxResults * 2)
                     .setNumThreads(numThreads)
                     .build();
 
