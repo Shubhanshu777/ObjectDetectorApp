@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DetectionResult {
+public class TFConfig {
 
     private static final String TAG = "ObjectDetectorHelper";
     private static final String MODEL_FILE = "model.tflite";

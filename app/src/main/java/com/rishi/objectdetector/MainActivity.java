@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MainActivity extends AppCompatActivity implements DetectionResult.DetectorListener {
+public class MainActivity extends AppCompatActivity implements TFConfig.DetectorListener {
 
     private static final String TAG = "ObjectDetector";
     private static final int REQUEST_CODE_PERMISSIONS = 10;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements DetectionResult.D
 
     private ActivityMainBinding binding;
     private ExecutorService cameraExecutor;
-    private DetectionResult objectDetector;
+    private TFConfig objectDetector;
     private ProcessCameraProvider cameraProvider;
     private Handler mainHandler;
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements DetectionResult.D
 
     private void initializeObjectDetector() {
         try {
-            objectDetector = new DetectionResult(this, 0.2f, 4, 15, this);
+            objectDetector = new TFConfig(this, 0.2f, 4, 15, this);
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize object detector", e);
             showToast("Failed to initialize detector: " + e.getMessage());
