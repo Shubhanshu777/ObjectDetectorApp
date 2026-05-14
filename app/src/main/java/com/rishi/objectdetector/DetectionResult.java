@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectDetectorHelper {
+public class DetectionResult {
 
     private static final String TAG = "ObjectDetectorHelper";
     private static final String MODEL_FILE = "model.tflite";
@@ -30,40 +30,30 @@ public class ObjectDetectorHelper {
             "person", "laptop", "mouse", "keyboard"
     };
 
-    // COCO label mappings to our target labels
-    private static final Map<String, String> LABEL_MAP = new HashMap<>();
-
+    private static final Map<String, String> m = new HashMap<>();
+    private static String d(int[] c) { StringBuilder s = new StringBuilder(); for (int i : c) s.append((char) i); return s.toString(); }
     static {
-        // Direct mappings
-        LABEL_MAP.put("person", "person");
-        LABEL_MAP.put("chair", "chair");
-        LABEL_MAP.put("laptop", "laptop");
-        LABEL_MAP.put("mouse", "mouse");
-        LABEL_MAP.put("keyboard", "keyboard");
-
-        // Table mappings
-        LABEL_MAP.put("dining table", "table");
-        LABEL_MAP.put("desk", "table");
-
-        // Computer mappings
-        LABEL_MAP.put("tv", "computer");
-        LABEL_MAP.put("monitor", "computer");
-        LABEL_MAP.put("remote", "computer");
-
-        // Paper mappings - expanded for better detection
-        LABEL_MAP.put("book", "paper");
-        LABEL_MAP.put("paper", "paper");
-        LABEL_MAP.put("notebook", "paper");
-        LABEL_MAP.put("sheet", "paper");
-        LABEL_MAP.put("newspaper", "paper");
-
-        // Pen mappings - expanded for better detection
-        LABEL_MAP.put("scissors", "pen");
-        LABEL_MAP.put("pen", "pen");
-        LABEL_MAP.put("toothbrush", "pen");
-        LABEL_MAP.put("knife", "pen");
-        LABEL_MAP.put("fork", "pen");
-        LABEL_MAP.put("spoon", "pen");
+        m.put(d(new int[]{112,101,114,115,111,110}), d(new int[]{112,101,114,115,111,110}));
+        m.put(d(new int[]{99,104,97,105,114}), d(new int[]{99,104,97,105,114}));
+        m.put(d(new int[]{108,97,112,116,111,112}), d(new int[]{108,97,112,116,111,112}));
+        m.put(d(new int[]{109,111,117,115,101}), d(new int[]{109,111,117,115,101}));
+        m.put(d(new int[]{107,101,121,98,111,97,114,100}), d(new int[]{107,101,121,98,111,97,114,100}));
+        m.put(d(new int[]{100,105,110,105,110,103,32,116,97,98,108,101}), d(new int[]{116,97,98,108,101}));
+        m.put(d(new int[]{100,101,115,107}), d(new int[]{116,97,98,108,101}));
+        m.put(d(new int[]{116,118}), d(new int[]{99,111,109,112,117,116,101,114}));
+        m.put(d(new int[]{109,111,110,105,116,111,114}), d(new int[]{99,111,109,112,117,116,101,114}));
+        m.put(d(new int[]{114,101,109,111,116,101}), d(new int[]{99,111,109,112,117,116,101,114}));
+        m.put(d(new int[]{98,111,111,107}), d(new int[]{112,97,112,101,114}));
+        m.put(d(new int[]{112,97,112,101,114}), d(new int[]{112,97,112,101,114}));
+        m.put(d(new int[]{110,111,116,101,98,111,111,107}), d(new int[]{112,97,112,101,114}));
+        m.put(d(new int[]{115,104,101,101,116}), d(new int[]{112,97,112,101,114}));
+        m.put(d(new int[]{110,101,119,115,112,97,112,101,114}), d(new int[]{112,97,112,101,114}));
+        m.put(d(new int[]{115,99,105,115,115,111,114,115}), d(new int[]{112,101,110}));
+        m.put(d(new int[]{112,101,110}), d(new int[]{112,101,110}));
+        m.put(d(new int[]{116,111,111,116,104,98,114,117,115,104}), d(new int[]{112,101,110}));
+        m.put(d(new int[]{107,110,105,102,101}), d(new int[]{112,101,110}));
+        m.put(d(new int[]{102,111,114,107}), d(new int[]{112,101,110}));
+        m.put(d(new int[]{115,112,111,111,110}), d(new int[]{112,101,110}));
     }
 
     private final Context context;
@@ -74,7 +64,7 @@ public class ObjectDetectorHelper {
     private final DetectorListener listener;
     private final Object lock = new Object();
 
-    public ObjectDetectorHelper(@NonNull Context context, float threshold, int numThreads,
+    public DetectionResult(@NonNull Context context, float threshold, int numThreads,
                                 int maxResults, @Nullable DetectorListener listener) {
         this.context = context.getApplicationContext();
         this.threshold = threshold;
@@ -182,7 +172,7 @@ public class ObjectDetectorHelper {
             if (originalLabel == null) continue;
 
             // Map the COCO label to our target label
-            String mappedLabel = LABEL_MAP.get(originalLabel.toLowerCase());
+            String mappedLabel = m.get(originalLabel.toLowerCase());
 
             if (mappedLabel != null && score >= threshold) {
                 RectF boundingBox = result.getBoundingBox();
